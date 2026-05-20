@@ -1,0 +1,26 @@
+<div class="container d-flex justify-content-center align-items-center min-vh-100 bg-light">
+  <div class="card shadow-sm p-4" style="width: 100%; max-width: 400px; border-radius: 12px;">
+    <h3 class="text-center mb-4 text-primary">Etkinlik App Giriş</h3>
+    
+    <div *ngIf="errorMessage" class="alert alert-danger py-2" role="alert">
+      {{ errorMessage }}
+    </div>
+
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+      <div class="mb-3">
+        <label class="form-label text-muted small fw-bold">E-posta Adresi</label>
+        <input type="email" formControlName="email" class="form-control" placeholder="ornek@email.com">
+      </div>
+      <div class="mb-4">
+        <label class="form-label text-muted small fw-bold">Şifre (En az 6 karakter)</label>
+        <input type="password" formControlName="password" class="form-control" placeholder="••••••••">
+      </div>
+      
+      <button type="submit" [disabled]="loginForm.invalid" class="btn btn-primary w-100 fw-bold">Giriş Yap</button>
+    </form>
+    
+    <div class="text-center mt-3">
+      <small class="text-muted">Hesabınız yok mu? <a routerLink="/register" class="text-decoration-none">Kayıt Olun</a></small>
+    </div>
+  </div>
+</div>

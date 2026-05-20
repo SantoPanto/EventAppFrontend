@@ -1,0 +1,58 @@
+<div class="container d-flex justify-content-center align-items-center min-vh-100 bg-light">
+  <div class="card shadow-sm p-4" style="width: 100%; max-width: 450px; border-radius: 12px;">
+    <h3 class="text-center mb-4 text-success">Yeni Hesap Oluştur</h3>
+    
+    <div *ngIf="errorMessage" class="alert alert-danger py-2" role="alert">
+      {{ errorMessage }}
+    </div>
+
+    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+      <div class="row">
+        <div class="col-md-6 mb-3">
+          <label class="form-label text-muted small fw-bold">Ad</label>
+          <input type="text" formControlName="name" class="form-control" placeholder="Adınız">
+          <div *ngIf="registerForm.get('name')?.invalid && registerForm.get('name')?.touched" class="text-danger small mt-1">
+            En az 2 karakter giriniz.
+          </div>
+        </div>
+        <div class="col-md-6 mb-3">
+          <label class="form-label text-muted small fw-bold">Soyad</label>
+          <input type="text" formControlName="surname" class="form-control" placeholder="Soyadınız">
+          <div *ngIf="registerForm.get('surname')?.invalid && registerForm.get('surname')?.touched" class="text-danger small mt-1">
+            En az 2 karakter giriniz.
+          </div>
+        </div>
+      </div>
+      
+      <div class="mb-3">
+        <label class="form-label text-muted small fw-bold">E-posta Adresi</label>
+        <input type="email" formControlName="email" class="form-control" placeholder="ornek@email.com">
+        <div *ngIf="registerForm.get('email')?.invalid && registerForm.get('email')?.touched" class="text-danger small mt-1">
+          Lütfen geçerli bir e-posta adresi giriniz.
+        </div>
+      </div>
+      
+      <div class="mb-3">
+        <label class="form-label text-muted small fw-bold">Telefon Numarası</label>
+        <input type="text" formControlName="phone" maxlength="11" class="form-control" placeholder="05554443322">
+        <div *ngIf="registerForm.get('phone')?.invalid && registerForm.get('phone')?.touched" class="text-danger small mt-1">
+          Lütfen sadece rakam kullanarak 10 veya 11 haneli numaranızı giriniz.
+        </div>
+      </div>
+      
+      <div class="mb-4">
+        <label class="form-label text-muted small fw-bold">Şifre</label>
+        <input type="password" formControlName="password" class="form-control" placeholder="••••••••">
+        <div *ngIf="registerForm.get('password')?.invalid && registerForm.get('password')?.touched" class="text-danger small mt-1">
+          Şifre en az 6 karakter olmalıdır.
+        </div>
+      </div>
+      
+      <button type="submit" [disabled]="registerForm.invalid" class="btn btn-success w-100 fw-bold">Kayıt Ol</button>
+    </form>
+    
+    <div class="text-center mt-3">
+      <small class="text-muted">Zaten bir hesabınız var mı? <a routerLink="/" class="text-decoration-none text-success">Giriş Yapın</a></small>
+    </div>
+  </div>
+</div>

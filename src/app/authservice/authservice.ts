@@ -2,7 +2,7 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { ICustomerLogin, ICustomerResponse } from '../models/customer';
+import { ICustomerLogin, ICustomerResponse } from '../models/customer/customer';
 
 @Injectable({
   providedIn: 'root'
