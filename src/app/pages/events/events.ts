@@ -1,9 +1,9 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Router } from '@angular/router';
 
-// DİKKAT: İçe aktarma yolları senin klasör yapına göre düzeltildi! (.service veya .component YOK)
-import { EventService } from '../../eventservice/eventservice'; // Eğer klasörün services ise '../../services/event' yap.
+// Kendi dosya yollarına göre güncelledin, burası doğru kalsın
+import { EventService } from '../../eventservice/eventservice';
 import { AuthService } from '../../authservice/authservice';
 import { IEvent } from '../../models/events/events'; 
 
@@ -11,47 +11,48 @@ import { IEvent } from '../../models/events/events';
   selector: 'app-events',
   standalone: true,
   imports: [CommonModule, RouterModule],
-  templateUrl: './events.html' // .component.html değil, senin yapına göre .html
+  templateUrl: './events.html'
 })
 export class EventsComponent implements OnInit {
+  // Bağımlılıkları burada (sınıfın içinde) tanımlıyoruz
   private eventService = inject(EventService);
   private authService = inject(AuthService);
   private router = inject(Router);
+  private cdr = inject(ChangeDetectorRef);
 
   events: IEvent[] = [];
   username: string | null = '';
+  isLoading: boolean = true;
 
+  // ngOnInit, sınıfın içinde yer almalı
   ngOnInit(): void {
     this.username = localStorage.getItem('username');
     this.loadEvents();
   }
 
-loadEvents(): void {
+  loadEvents(): void {
+    this.isLoading = true;
     this.eventService.getAllEvents().subscribe({
       next: (data: any) => { 
-        console.log("Backend'den gelen ham veri:", data);
-        
-        // Çözüm: Verinin yapısına göre doğru kısmı seçiyoruz.
-        // Eğer backend Page dönüyorsa 'data.content' kullanmalısın.
-        // Eğer backend doğrudan List dönüyorsa 'data' kullanmalısın.
-        // Güvenli yöntem:
+        // Veri yapısına göre atama
         if (data.content) {
             this.events = data.content;
         } else if (Array.isArray(data)) {
             this.events = data;
-        } else {
-            console.error("Beklenmedik veri yapısı:", data);
         }
+        this.isLoading = false;
+        this.cdr.detectChanges(); // Ekranın güncellenmesini zorla
       },
       error: (err: any) => { 
         console.error("Etkinlikler yüklenirken hata", err);
+        this.isLoading = false;
+        this.cdr.detectChanges();
       }
     });
   }
 
   logout(): void {
     this.authService.logout().subscribe({
-      // HATA ÇÖZÜMÜ: res ve err yanına ": any" eklendi (Object is of type unknown hatası çözümü)
       next: (res: any) => { 
         localStorage.clear();
         this.router.navigate(['/login']);
@@ -62,4 +63,4 @@ loadEvents(): void {
       }
     });
   }
-}
+} 

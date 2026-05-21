@@ -1,22 +1,3 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-5 shadow-sm">
-  <div class="container">
-    <a class="navbar-brand fw-bold" routerLink="/events">📅 EventApp</a>
-    <div class="collapse navbar-collapse">
-<ul class="navbar-nav me-auto mb-2 mb-lg-0">
-  <li class="nav-item">
-    <a class="nav-link" routerLink="/events" routerLinkActive="active">Tüm Etkinlikler</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link" routerLink="/my-events" routerLinkActive="active">Kendi Etkinliklerim</a>
-  </li>
-</ul>
-      <div class="d-flex align-items-center text-white">
-        <span class="me-3">Hoş geldin, <strong>{{ username }}</strong></span>
-        <button (click)="logout()" class="btn btn-outline-danger btn-sm">Çıkış Yap</button>
-      </div>
-    </div>
-  </div>
-</nav>
 
 <div class="container">
   <div class="row mb-4 align-items-center">
@@ -31,14 +12,22 @@
     </div>
   </div>
 
+  <div class="text-center mt-5" *ngIf="isLoading">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Yükleniyor...</span>
+    </div>
+    <p class="mt-2">Etkinlikler getiriliyor...</p>
+  </div>
 
-  <div class="row">
-    <div class="col-12" *ngIf="events.length === 0">
+  <div class="row" *ngIf="!isLoading && events.length === 0">
+    <div class="col-12">
       <div class="alert alert-info text-center" role="alert">
         Şu an sistemde hiç etkinlik bulunmuyor. İlk etkinliği sen oluştur!
       </div>
     </div>
+  </div>
 
+  <div class="row" *ngIf="!isLoading && events.length > 0">
     <div class="col-md-4 mb-4" *ngFor="let event of events">
       <div class="card h-100 shadow-sm border-0 bg-light">
         <div class="card-body">

@@ -4,6 +4,8 @@ import { LoginComponent } from './pages/login/login';
 import { RegisterComponent } from './pages/register/register';
 import { EventsComponent } from './pages/events/events';
 import { CreateEventComponent } from './pages/create-event/create-event'; // Dosya yolunu kendine göre ayarla
+import { MyEventsComponent } from './pages/my-events/my-events'; 
+import { EventDetailComponent } from './pages/event-detail/event-detail';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -11,5 +13,7 @@ export const routes: Routes = [
   { path: 'register', component: RegisterComponent },
   { path: 'events', component: EventsComponent },
   { path: 'create-event', component: CreateEventComponent },
+  { path: 'my-events', component: MyEventsComponent },
+  { path: 'event-detail/:id', component: EventDetailComponent }
 
 ];

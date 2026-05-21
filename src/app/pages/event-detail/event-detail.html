@@ -1,1 +1,27 @@
-<p>event-detail works!</p>
+<div class="container mt-5">
+  <div *ngIf="event; else loading" class="card shadow-sm border-0">
+    <div class="card-body">
+      <h2 class="card-title">{{ event.name }}</h2>
+      <hr>
+      <p><strong>📅 Tarih:</strong> {{ event.date }}</p>
+      <p><strong>⏰ Saat:</strong> {{ event.time }}</p>
+      <p><strong>📍 Yer:</strong> {{ event.location }}</p>
+      <p><strong>🏷️ Kategori:</strong> {{ event.category }}</p>
+      <p><strong>👤 Düzenleyen:</strong> {{ event.ownerName }} {{ event.ownerSurname }}</p>
+      <p><strong>📝 Açıklama:</strong> {{ event.description }}</p>
+
+      <!-- Yetki Kontrolü -->
+      <div *ngIf="event.ownerCid === currentUserId" class="mt-4">
+        <button class="btn btn-warning me-2" (click)="editEvent()">Düzenle</button>
+        <button class="btn btn-danger" (click)="deleteEvent()">Sil</button>
+      </div>
+    </div>
+  </div>
+
+  <ng-template #loading>
+    <div class="text-center mt-5">
+      <div class="spinner-border text-primary" role="status"></div>
+      <p class="mt-2">Etkinlik detayları getiriliyor...</p>
+    </div>
+  </ng-template>
+</div>

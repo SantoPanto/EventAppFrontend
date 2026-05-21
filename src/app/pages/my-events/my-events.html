@@ -1,1 +1,58 @@
-<p>my-events works!</p>
+<div class="container">
+  <!-- Başlık ve Yeni Etkinlik Oluştur Butonu -->
+  <div class="row mb-4 align-items-center">
+    <div class="col-md-8">
+      <h2 class="fw-bold">Kendi Etkinliklerim</h2>
+      <p class="text-muted">Senin oluşturduğun etkinlikler burada listelenir.</p>
+    </div>
+    <div class="col-md-4 text-end">
+      <!-- Buton burada! -->
+      <button class="btn btn-primary shadow-sm" routerLink="/create-event">
+        + Yeni Etkinlik Oluştur
+      </button>
+    </div>
+  </div>
+
+  <!-- Yükleniyor Durumu -->
+  <div class="text-center mt-5" *ngIf="isLoading">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Yükleniyor...</span>
+    </div>
+    <p class="mt-2">Etkinliklerin getiriliyor...</p>
+  </div>
+
+  <!-- Etkinlik Yok Mesajı -->
+  <div class="row" *ngIf="!isLoading && events.length === 0">
+    <div class="col-12">
+      <div class="alert alert-info text-center" role="alert">
+        Henüz bir etkinlik oluşturmadın. İlk etkinliğini oluşturmaya ne dersin?
+      </div>
+    </div>
+  </div>
+
+  <!-- Etkinlik Listesi -->
+  <div class="row" *ngIf="!isLoading && events.length > 0">
+    <div class="col-md-4 mb-4" *ngFor="let event of events">
+      <div class="card h-100 shadow-sm border-0 bg-light">
+        <div class="card-body">
+          <span class="badge bg-secondary mb-2">{{ event.category }}</span>
+          <h5 class="card-title text-primary fw-bold">{{ event.name }}</h5>
+          <p class="card-text text-muted small">{{ event.description | slice:0:100 }}...</p>
+        </div>
+        <ul class="list-group list-group-flush bg-transparent">
+          <li class="list-group-item bg-transparent">
+            <strong>Tarih:</strong> {{ event.date }} - {{ event.time }}
+          </li>
+          <li class="list-group-item bg-transparent">
+            <strong>Yer:</strong> {{ event.location }}
+          </li>
+        </ul>
+        <div class="card-footer bg-white border-0 text-center pb-3">
+          <a [routerLink]="['/event-detail', event.eid]" class="btn btn-outline-primary w-100">
+            Detayları Gör ve Düzenle
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

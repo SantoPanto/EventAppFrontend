@@ -1,22 +1,17 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
+import { EventService } from './eventservice';
 
-import { Eventservice } from './eventservice';
+describe('EventService', () => {
+  let service: EventService;
 
-describe('Eventservice', () => {
-  let component: Eventservice;
-  let fixture: ComponentFixture<Eventservice>;
-
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [Eventservice],
-    }).compileComponents();
-
-    fixture = TestBed.createComponent(Eventservice);
-    component = fixture.componentInstance;
-    await fixture.whenStable();
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      providers: [EventService],
+    });
+    service = TestBed.inject(EventService);
   });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
+  it('should be created', () => {
+    expect(service).toBeTruthy();
   });
 });
