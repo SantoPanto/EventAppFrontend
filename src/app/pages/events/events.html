@@ -1,17 +1,24 @@
+<div class="container mt-4">
+  <!-- Başlık ve Sayfalama Kontrolleri -->
+  <div class="d-flex justify-content-between align-items-center mb-4 mt-3">
+    <h2 class="mb-0 fw-bold">Tüm Etkinlikler</h2>
+    
+    <div class="d-flex align-items-center gap-3">
+      <!-- Sayfalama -->
+      <div class="btn-group shadow-sm" *ngIf="totalPages > 1">
+        <button class="btn btn-outline-primary" (click)="prevPage()" [disabled]="currentPage === 0">Önceki</button>
+        <span class="btn btn-light disabled text-dark fw-bold">Sayfa {{ currentPage + 1 }} / {{ totalPages }}</span>
+        <button class="btn btn-outline-primary" (click)="nextPage()" [disabled]="currentPage === totalPages - 1">Sonraki</button>
+      </div>
 
-<div class="container">
-  <div class="row mb-4 align-items-center">
-    <div class="col-md-8">
-      <h2 class="fw-bold">Yaklaşan Etkinlikler</h2>
-      <p class="text-muted">Diğer kullanıcıların yayınladığı etkinlikleri keşfet ve katıl.</p>
-    </div>
-    <div class="col-md-4 text-end">
+      <!-- Yeni Etkinlik Butonu -->
       <button class="btn btn-primary shadow-sm" routerLink="/create-event">
         + Yeni Etkinlik Oluştur
       </button>
     </div>
   </div>
 
+  <!-- Yükleniyor Durumu -->
   <div class="text-center mt-5" *ngIf="isLoading">
     <div class="spinner-border text-primary" role="status">
       <span class="visually-hidden">Yükleniyor...</span>
@@ -19,6 +26,7 @@
     <p class="mt-2">Etkinlikler getiriliyor...</p>
   </div>
 
+  <!-- Etkinlik Yok Mesajı -->
   <div class="row" *ngIf="!isLoading && events.length === 0">
     <div class="col-12">
       <div class="alert alert-info text-center" role="alert">
@@ -27,6 +35,7 @@
     </div>
   </div>
 
+  <!-- Etkinlik Listesi -->
   <div class="row" *ngIf="!isLoading && events.length > 0">
     <div class="col-md-4 mb-4" *ngFor="let event of events">
       <div class="card h-100 shadow-sm border-0 bg-light">

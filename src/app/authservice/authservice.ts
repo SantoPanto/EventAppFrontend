@@ -28,6 +28,7 @@ export class AuthService {
 
  // EventService içinde logout şu şekilde olmalı
   logout(): Observable<any> {
-  return this.http.post(`${this.apiUrl}/logout`, {}, { withCredentials: true });
+    // post yerine get yapıldı
+    return this.http.get('http://localhost:8080/customer/logout', { withCredentials: true });
   }
 }

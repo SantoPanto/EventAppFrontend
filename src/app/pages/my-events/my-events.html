@@ -1,14 +1,26 @@
 <div class="container">
-  <!-- Başlık ve Yeni Etkinlik Oluştur Butonu -->
-  <div class="row mb-4 align-items-center">
-    <div class="col-md-8">
-      <h2 class="fw-bold">Kendi Etkinliklerim</h2>
-      <p class="text-muted">Senin oluşturduğun etkinlikler burada listelenir.</p>
+  <!-- Başlık ve Kontrol Paneli -->
+  <div class="d-flex justify-content-between align-items-center mb-4 mt-3">
+    <div>
+      <h2 class="mb-0 fw-bold">Benim Etkinliklerim</h2>
+      <p class="text-muted mb-0 small">Kendi oluşturduğunuz etkinlikleri yönetin.</p>
     </div>
-    <div class="col-md-4 text-end">
-      <!-- Buton burada! -->
+    
+    <div class="d-flex align-items-center gap-3">
+      <!-- Sayfalama Kontrolleri -->
+      <div class="btn-group shadow-sm" *ngIf="totalPages > 1">
+        <button class="btn btn-outline-primary" (click)="prevPage()" [disabled]="currentPage === 1">
+          <i class="bi bi-chevron-left"></i> Önceki
+        </button>
+        <span class="btn btn-light disabled text-dark fw-bold">Sayfa {{ currentPage }} / {{ totalPages }}</span>
+        <button class="btn btn-outline-primary" (click)="nextPage()" [disabled]="currentPage === totalPages">
+          Sonraki <i class="bi bi-chevron-right"></i>
+        </button>
+      </div>
+
+      <!-- Yeni Etkinlik Butonu -->
       <button class="btn btn-primary shadow-sm" routerLink="/create-event">
-        + Yeni Etkinlik Oluştur
+        <i class="bi bi-plus-lg"></i> Yeni Etkinlik Oluştur
       </button>
     </div>
   </div>
@@ -22,7 +34,7 @@
   </div>
 
   <!-- Etkinlik Yok Mesajı -->
-  <div class="row" *ngIf="!isLoading && events.length === 0">
+  <div class="row" *ngIf="!isLoading && myEvents.length === 0">
     <div class="col-12">
       <div class="alert alert-info text-center" role="alert">
         Henüz bir etkinlik oluşturmadın. İlk etkinliğini oluşturmaya ne dersin?
@@ -30,9 +42,9 @@
     </div>
   </div>
 
-  <!-- Etkinlik Listesi -->
-  <div class="row" *ngIf="!isLoading && events.length > 0">
-    <div class="col-md-4 mb-4" *ngFor="let event of events">
+  <!-- Etkinlik Listesi (Paginated) -->
+  <div class="row" *ngIf="!isLoading && myEvents.length > 0">
+    <div class="col-md-4 mb-4" *ngFor="let event of paginatedEvents">
       <div class="card h-100 shadow-sm border-0 bg-light">
         <div class="card-body">
           <span class="badge bg-secondary mb-2">{{ event.category }}</span>

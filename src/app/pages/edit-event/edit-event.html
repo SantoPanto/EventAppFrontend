@@ -1,0 +1,60 @@
+<div class="container mt-5 mb-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      
+      <div *ngIf="isLoading" class="text-center my-5">
+        <div class="spinner-border text-warning" role="status"></div>
+        <p class="mt-2">Etkinlik verileri getiriliyor...</p>
+      </div>
+
+      <div *ngIf="!isLoading" class="card shadow-sm border-0">
+        <div class="card-header bg-warning text-dark">
+          <h4 class="mb-0">Etkinliği Düzenle</h4>
+        </div>
+        <div class="card-body">
+          <form [formGroup]="editForm" (ngSubmit)="onSubmit()">
+            
+            <div class="mb-3">
+              <label class="form-label fw-bold">Etkinlik Adı</label>
+              <input type="text" class="form-control" formControlName="name">
+            </div>
+
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <label class="form-label fw-bold">Tarih</label>
+                <input type="date" class="form-control" formControlName="date">
+              </div>
+              <div class="col-md-6 mb-3">
+                <label class="form-label fw-bold">Saat</label>
+                <input type="time" class="form-control" formControlName="time">
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label fw-bold">Yer (Lokasyon)</label>
+              <input type="text" class="form-control" formControlName="location">
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label fw-bold">Kategori</label>
+              <input type="text" class="form-control" formControlName="category">
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label fw-bold">Açıklama</label>
+              <textarea class="form-control" rows="4" formControlName="description"></textarea>
+            </div>
+
+            <hr>
+            <div class="d-flex justify-content-between">
+              <button type="button" class="btn btn-secondary" [routerLink]="['/event-detail', eventId]">Geri Dön</button>
+              <button type="submit" class="btn btn-success" [disabled]="editForm.invalid">Kaydet ve Güncelle</button>
+            </div>
+
+          </form>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>

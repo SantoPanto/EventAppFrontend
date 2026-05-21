@@ -9,12 +9,34 @@
       <p><strong>🏷️ Kategori:</strong> {{ event.category }}</p>
       <p><strong>👤 Düzenleyen:</strong> {{ event.ownerName }} {{ event.ownerSurname }}</p>
       <p><strong>📝 Açıklama:</strong> {{ event.description }}</p>
+      <p><strong>👥 Katılımcı Sayısı:</strong> <span class="badge bg-primary fs-6">{{ participants.length }} Kişi</span></p>
 
-      <!-- Yetki Kontrolü -->
+      <div *ngIf="event.ownerCid !== currentUserId" class="mt-4">
+        <button class="btn btn-success btn-lg w-100 shadow-sm" (click)="joinCurrentEvent()">
+          <i class="bi bi-person-plus-fill me-2"></i> Bu Etkinliğe Katıl
+        </button>
+      </div>
       <div *ngIf="event.ownerCid === currentUserId" class="mt-4">
         <button class="btn btn-warning me-2" (click)="editEvent()">Düzenle</button>
         <button class="btn btn-danger" (click)="deleteEvent()">Sil</button>
       </div>
+
+      <div *ngIf="event.ownerCid === currentUserId" class="mt-5">
+        <h4 class="border-bottom pb-2 text-secondary">👥 Katılımcı Yönetim Listesi</h4>
+        <div *ngIf="participants.length === 0" class="alert alert-info mt-2">
+          Bu etkinliğe henüz hiç katılımcı kayıt olmadı.
+        </div>
+        <ul *ngIf="participants.length > 0" class="list-group list-group-flush mt-2 shadow-sm rounded">
+          <li *ngFor="let p of participants" class="list-group-item d-flex justify-content-between align-items-center">
+            <div>
+              <i class="bi bi-person-fill text-primary me-2"></i>
+              <strong>{{ p.name }} {{ p.surname }}</strong>
+            </div>
+            <span class="text-muted small">{{ p.email }}</span>
+          </li>
+        </ul>
+      </div>
+
     </div>
   </div>
 

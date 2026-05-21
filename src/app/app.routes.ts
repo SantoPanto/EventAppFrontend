@@ -6,6 +6,7 @@ import { EventsComponent } from './pages/events/events';
 import { CreateEventComponent } from './pages/create-event/create-event'; // Dosya yolunu kendine göre ayarla
 import { MyEventsComponent } from './pages/my-events/my-events'; 
 import { EventDetailComponent } from './pages/event-detail/event-detail';
+import { EditEventComponent } from './pages/edit-event/edit-event';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -14,6 +15,7 @@ export const routes: Routes = [
   { path: 'events', component: EventsComponent },
   { path: 'create-event', component: CreateEventComponent },
   { path: 'my-events', component: MyEventsComponent },
-  { path: 'event-detail/:id', component: EventDetailComponent }
+  { path: 'event-detail/:id', component: EventDetailComponent },
+  { path: 'edit-event/:id', component: EditEventComponent }
 
 ];

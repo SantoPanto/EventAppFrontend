@@ -30,4 +30,16 @@ export class NavbarComponent {
       }
     });
   }
+
+  // Eğer import edilmediyse en üste ekle: import { Router } from '@angular/router';
+  
+  onSearch(query: string): void {
+    if (query.trim()) {
+      // Aranan kelimeyi URL parametresi olarak ekleyip Tüm Etkinlikler sayfasına yönlendir
+      this.router.navigate(['/events'], { queryParams: { q: query.trim() } });
+    } else {
+      // Kutu boşsa normal etkinlikler sayfasına git
+      this.router.navigate(['/events']);
+    }
+  }
 }

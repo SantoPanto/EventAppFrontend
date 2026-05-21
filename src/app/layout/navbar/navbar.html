@@ -13,6 +13,18 @@
           <a class="nav-link" routerLink="/my-events" routerLinkActive="active">Kendi Etkinliklerim</a>
         </li>
       </ul>
+
+      <!-- Arama Formu -->
+      <form class="d-flex mx-auto w-50 px-4" (submit)="$event.preventDefault(); onSearch(searchInput.value)">
+        <div class="input-group shadow-sm">
+          <span class="input-group-text bg-white border-end-0 text-muted">
+            <i class="bi bi-search"></i>
+          </span>
+          <input #searchInput class="form-control border-start-0 ps-0" type="search" 
+                 placeholder="Etkinlik ara (Örn: Java Bootcamp, Robotaksi, Turnuva...)" aria-label="Search">
+          <button class="btn btn-warning px-4 fw-bold" type="submit">Ara</button>
+        </div>
+      </form>
       
       <!-- Sağ Taraf: Kullanıcı ve Çıkış -->
       <div class="d-flex align-items-center text-white">
