@@ -19,4 +19,14 @@ export class AuthService {
   register(data: any): Observable<any> {
     return this.http.post(`${this.apiUrl}/register`, data, { withCredentials: true });
   }
+
+  checkSession(): Observable<any> {
+  // Backend'deki oturum kontrol adresine istek atıyoruz
+  // withCredentials: true sayesinde tarayıcı JSESSIONID çerezini otomatik gönderir
+  return this.http.get(`${this.apiUrl}/check-session`, { withCredentials: true });
+  }
+
+  logout(): Observable<any> {
+    return this.http.post(`${this.apiUrl}/logout`, {}, { withCredentials: true });
+  }
 }

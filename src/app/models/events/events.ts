@@ -1,9 +1,10 @@
 export interface IEvent {
-  eid?: number;        // Backend'deki Event id
+  eid?: number; // Backend otomatik vereceği için opsiyonel
   name: string;
-  date: string;        // Java'daki LocalDate, string olarak gelir (örn: "2026-05-20")
-  time: string;        // Java'daki LocalTime (örn: "14:30")
+  date: string; // LocalDate yyyy-MM-dd formatında gelir
+  time: string; // LocalTime HH:mm formatında gelir
   location: string;
   description: string;
   category: string;
+  published?: boolean; // Etkinliğin yayında olup olmama durumu
 }

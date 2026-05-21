@@ -1,0 +1,91 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-5 shadow-sm">
+  <div class="container">
+    <a class="navbar-brand fw-bold" routerLink="/events">📅 EventApp</a>
+    <div class="collapse navbar-collapse">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item"><a class="nav-link" routerLink="/events">Tüm Etkinlikler</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div class="container mb-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <div class="card shadow border-0">
+        <div class="card-header bg-primary text-white p-4">
+          <h3 class="mb-0">Yeni Etkinlik Oluştur</h3>
+          <p class="mb-0 text-white-50">Etkinlik detaylarını eksiksiz doldurun.</p>
+        </div>
+        <div class="card-body p-4">
+
+          <div *ngIf="successMessage" class="alert alert-success">{{ successMessage }}</div>
+          <div *ngIf="errorMessage" class="alert alert-danger">{{ errorMessage }}</div>
+
+          <form [formGroup]="eventForm" (ngSubmit)="onSubmit()">
+            
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <label class="form-label fw-bold">Etkinlik Adı</label>
+                <input type="text" class="form-control" formControlName="name" 
+                       [ngClass]="{'is-invalid': eventForm.get('name')?.invalid && eventForm.get('name')?.touched}">
+                <div class="invalid-feedback">Etkinlik adı en az 3 karakter olmalıdır.</div>
+              </div>
+
+              <div class="col-md-6 mb-3">
+                <label class="form-label fw-bold">Kategori</label>
+                <select class="form-select" formControlName="category"
+                        [ngClass]="{'is-invalid': eventForm.get('category')?.invalid && eventForm.get('category')?.touched}">
+                  <option value="" disabled selected>Kategori Seçin</option>
+                  <option value="Teknoloji">Teknoloji</option>
+                  <option value="Eğitim">Eğitim</option>
+                  <option value="Spor">Spor</option>
+                  <option value="Sanat">Sanat</option>
+                  <option value="Müzik">Müzik</option>
+                  <option value="Diğer">Diğer</option>
+                </select>
+                <div class="invalid-feedback">Lütfen bir kategori seçin.</div>
+              </div>
+
+              <div class="col-md-6 mb-3">
+                <label class="form-label fw-bold">Tarih</label>
+                <input type="date" class="form-control" formControlName="date"
+                       [ngClass]="{'is-invalid': eventForm.get('date')?.invalid && eventForm.get('date')?.touched}">
+                <div class="invalid-feedback">Tarih alanı boş bırakılamaz.</div>
+              </div>
+
+              <div class="col-md-6 mb-3">
+                <label class="form-label fw-bold">Saat</label>
+                <input type="time" class="form-control" formControlName="time"
+                       [ngClass]="{'is-invalid': eventForm.get('time')?.invalid && eventForm.get('time')?.touched}">
+                <div class="invalid-feedback">Saat alanı boş bırakılamaz.</div>
+              </div>
+
+              <div class="col-md-12 mb-3">
+                <label class="form-label fw-bold">Yer (Konum)</label>
+                <input type="text" class="form-control" formControlName="location" placeholder="Örn: Bursa Merinos AKKM"
+                       [ngClass]="{'is-invalid': eventForm.get('location')?.invalid && eventForm.get('location')?.touched}">
+                <div class="invalid-feedback">Etkinlik yeri boş bırakılamaz.</div>
+              </div>
+
+              <div class="col-md-12 mb-4">
+                <label class="form-label fw-bold">Açıklama</label>
+                <textarea class="form-control" formControlName="description" rows="4" placeholder="Etkinliğiniz hakkında detaylı bilgi verin..."
+                          [ngClass]="{'is-invalid': eventForm.get('description')?.invalid && eventForm.get('description')?.touched}"></textarea>
+                <div class="invalid-feedback">Açıklama alanı en az 10 karakter olmalıdır.</div>
+              </div>
+            </div>
+
+            <div class="d-flex justify-content-between">
+              <button type="button" class="btn btn-secondary" routerLink="/events">İptal</button>
+              <button type="submit" class="btn btn-primary px-5">
+                <i class="bi bi-save"></i> Kaydet ve Oluştur
+              </button>
+            </div>
+
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,22 +1,16 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
+import { CanActivateFn } from '@angular/router';
+import { authGuard } from './authguard'; // Kendi dosya ismine göre güncelle
 
-import { Authguard } from './authguard';
+describe('authGuard', () => {
+  const executeGuard: CanActivateFn = (...guardParameters) => 
+      TestBed.runInInjectionContext(() => authGuard(...guardParameters));
 
-describe('Authguard', () => {
-  let component: Authguard;
-  let fixture: ComponentFixture<Authguard>;
-
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [Authguard],
-    }).compileComponents();
-
-    fixture = TestBed.createComponent(Authguard);
-    component = fixture.componentInstance;
-    await fixture.whenStable();
+  beforeEach(() => {
+    TestBed.configureTestingModule({});
   });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
+  it('should be created', () => {
+    expect(executeGuard).toBeTruthy();
   });
 });

@@ -1,14 +1,15 @@
-// src/app/app.routes.ts
 import { Routes } from '@angular/router';
-import { authGuard } from './authguard/authguard';
+// Dosya yolları senin isimlendirmene göre uyarlandı (.component yok)
+import { LoginComponent } from './pages/login/login'; 
+import { RegisterComponent } from './pages/register/register';
+import { EventsComponent } from './pages/events/events';
+import { CreateEventComponent } from './pages/create-event/create-event'; // Dosya yolunu kendine göre ayarla
 
 export const routes: Routes = [
-  // Boş rota doğrudan Login sayfasını açar
-  { path: '', loadComponent: () => import('./pages/login/login').then(c => c.LoginComponent) },
-  
-  // Register (Kayıt Ol) sayfasının rotasını ekledik
-  { path: 'register', loadComponent: () => import('./pages/register/register').then(c => c.RegisterComponent) },
+  { path: '', redirectTo: 'login', pathMatch: 'full' },
+  { path: 'login', component: LoginComponent },
+  { path: 'register', component: RegisterComponent },
+  { path: 'events', component: EventsComponent },
+  { path: 'create-event', component: CreateEventComponent },
 
-  //Events sayfası rotası
-  { path: 'events', loadComponent: () => import('./pages/events/events').then(c => c.Events), canActivate: [authGuard] }
 ];

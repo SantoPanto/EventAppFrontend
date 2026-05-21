@@ -1,1 +1,65 @@
-<p>events works!</p>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-5 shadow-sm">
+  <div class="container">
+    <a class="navbar-brand fw-bold" routerLink="/events">📅 EventApp</a>
+    <div class="collapse navbar-collapse">
+<ul class="navbar-nav me-auto mb-2 mb-lg-0">
+  <li class="nav-item">
+    <a class="nav-link" routerLink="/events" routerLinkActive="active">Tüm Etkinlikler</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" routerLink="/my-events" routerLinkActive="active">Kendi Etkinliklerim</a>
+  </li>
+</ul>
+      <div class="d-flex align-items-center text-white">
+        <span class="me-3">Hoş geldin, <strong>{{ username }}</strong></span>
+        <button (click)="logout()" class="btn btn-outline-danger btn-sm">Çıkış Yap</button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<div class="container">
+  <div class="row mb-4 align-items-center">
+    <div class="col-md-8">
+      <h2 class="fw-bold">Yaklaşan Etkinlikler</h2>
+      <p class="text-muted">Diğer kullanıcıların yayınladığı etkinlikleri keşfet ve katıl.</p>
+    </div>
+    <div class="col-md-4 text-end">
+      <button class="btn btn-primary shadow-sm" routerLink="/create-event">
+        + Yeni Etkinlik Oluştur
+      </button>
+    </div>
+  </div>
+
+
+  <div class="row">
+    <div class="col-12" *ngIf="events.length === 0">
+      <div class="alert alert-info text-center" role="alert">
+        Şu an sistemde hiç etkinlik bulunmuyor. İlk etkinliği sen oluştur!
+      </div>
+    </div>
+
+    <div class="col-md-4 mb-4" *ngFor="let event of events">
+      <div class="card h-100 shadow-sm border-0 bg-light">
+        <div class="card-body">
+          <span class="badge bg-secondary mb-2">{{ event.category }}</span>
+          <h5 class="card-title text-primary fw-bold">{{ event.name }}</h5>
+          <p class="card-text text-muted small">{{ event.description | slice:0:100 }}...</p>
+        </div>
+        <ul class="list-group list-group-flush bg-transparent">
+          <li class="list-group-item bg-transparent">
+            <strong>Tarih:</strong> {{ event.date }} - {{ event.time }}
+          </li>
+          <li class="list-group-item bg-transparent">
+            <strong>Yer:</strong> {{ event.location }}
+          </li>
+        </ul>
+        <div class="card-footer bg-white border-0 text-center pb-3">
+          <a [routerLink]="['/event-detail', event.eid]" class="btn btn-outline-primary w-100">
+            Detayları Gör ve Katıl
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
