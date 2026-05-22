@@ -25,19 +25,22 @@ export class EventDetailComponent implements OnInit {
     this.currentUserId = Number(localStorage.getItem('cid'));
     const eid = Number(this.route.snapshot.paramMap.get('id'));
 
-    // 1. Etkinlik Detayını Getir
     this.eventService.getById(eid).subscribe({
       next: (data: IEvent) => {
         this.event = data; 
-        this.cdr.detectChanges(); 
         
-        // HERKES sayıyı görebilsin diye count isteği at
+        // 🌟 FRONTEND GÜVENLİK KONTROLÜ: Etkinlik yayında değilse ve sahibi biz değilsek sayfadan at!
+        if (this.event.status !== 'PUBLISHED' && this.event.ownerCid !== this.currentUserId) {
+           alert("Bu etkinlik yayından kaldırılmış veya arşivlenmiş. Sadece etkinlik sahibi görüntüleyebilir.");
+           this.router.navigate(['/events']);
+           return;
+        }
+
         this.eventService.getParticipantCount(eid).subscribe(res => {
             this.participantCount = res.count;
             this.cdr.detectChanges();
         });
 
-        // SADECE etkinliğin sahibi giriş yapan kişiyse listeyi çek
         if (this.event.ownerCid === this.currentUserId) {
             this.loadParticipants(eid);
         }
@@ -49,6 +52,26 @@ export class EventDetailComponent implements OnInit {
         }
       }
     });
+  }
+
+  // 🌟 DURUM DEĞİŞTİRME METODU
+  changeEventStatus(newStatus: string): void {
+    if (!this.event) return;
+
+    if(confirm("Etkinlik durumunu değiştirmek istediğinize emin misiniz?")) {
+      this.eventService.updateEventStatus(this.event.eid, newStatus).subscribe({
+        next: () => {
+          this.event!.status = newStatus; // Arayüzü anında güncelle
+          this.cdr.detectChanges();
+          alert("Etkinlik durumu başarıyla güncellendi!");
+        },
+        error: (err) => {
+          console.error("Durum güncelleme hatası:", err);
+          // Backend'den gelen "Gelecekteki etkinlik arşivlenemez" gibi hataları göster
+          alert(err.error?.message || "Durum güncellenirken bir hata oluştu.");
+        }
+      });
+    }
   }
 
   // Katılımcıları yükleyen fonksiyon

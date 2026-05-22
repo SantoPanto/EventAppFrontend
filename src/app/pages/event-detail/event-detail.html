@@ -1,7 +1,13 @@
 <div class="container mt-5">
   <div *ngIf="event; else loading" class="card shadow-sm border-0">
     <div class="card-body">
-      <h2 class="card-title">{{ event.name }}</h2>
+      <!-- Güncellenmiş Başlık Yapısı -->
+      <h2 class="card-title d-flex align-items-center gap-2">
+        {{ event.name }}
+        <span class="badge bg-success fs-6" *ngIf="event.status === 'PUBLISHED'">Yayında</span>
+        <span class="badge bg-warning text-dark fs-6" *ngIf="event.status === 'UNPUBLISHED'">Yayından Çekildi / Taslak</span>
+        <span class="badge bg-secondary fs-6" *ngIf="event.status === 'ARCHIVED'">Arşivlendi</span>
+      </h2>
       <hr>
       <p><strong>📅 Tarih:</strong> {{ event.date }}</p>
       <p><strong>⏰ Saat:</strong> {{ event.time }}</p>
@@ -9,18 +15,42 @@
       <p><strong>🏷️ Kategori:</strong> {{ event.category }}</p>
       <p><strong>👤 Düzenleyen:</strong> {{ event.ownerName }} {{ event.ownerSurname }}</p>
       <p><strong>📝 Açıklama:</strong> {{ event.description }}</p>
-      <p><strong>👥 Katılımcı Sayısı:</strong> <span class="badge bg-primary fs-6">{{ participants.length }} Kişi</span></p>
+      <p><strong>👥 Katılımcı Sayısı:</strong> <span class="badge bg-primary fs-6">{{ participantCount }} Kişi</span></p>
 
+      <!-- Katıl Butonu (Sahibi Değilse) -->
       <div *ngIf="event.ownerCid !== currentUserId" class="mt-4">
         <button class="btn btn-success btn-lg w-100 shadow-sm" (click)="joinCurrentEvent()">
           <i class="bi bi-person-plus-fill me-2"></i> Bu Etkinliğe Katıl
         </button>
       </div>
-      <div *ngIf="event.ownerCid === currentUserId" class="mt-4">
-        <button class="btn btn-warning me-2" (click)="editEvent()">Düzenle</button>
+
+      <!-- Sahibi İçin İşlem Butonları ve Durum Değiştirme -->
+      <div *ngIf="event.ownerCid === currentUserId" class="mt-4 d-flex gap-2">
+        
+        <!-- Durumu Değiştir Dropdown -->
+        <div class="dropdown">
+          <button class="btn btn-info dropdown-toggle text-white" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <i class="bi bi-arrow-repeat"></i> Durumu Değiştir
+          </button>
+          <ul class="dropdown-menu shadow">
+            <li *ngIf="event.status !== 'PUBLISHED'">
+              <button class="dropdown-item fw-bold text-success" (click)="changeEventStatus('PUBLISHED')">Yayınla (Herkese Aç)</button>
+            </li>
+            <li *ngIf="event.status === 'PUBLISHED'">
+              <button class="dropdown-item fw-bold text-warning" (click)="changeEventStatus('UNPUBLISHED')">Yayından Çek (Gizle)</button>
+            </li>
+            <li><hr class="dropdown-divider"></li>
+            <li *ngIf="event.status !== 'ARCHIVED'">
+              <button class="dropdown-item fw-bold text-secondary" (click)="changeEventStatus('ARCHIVED')">Arşivle</button>
+            </li>
+          </ul>
+        </div>
+
+        <button class="btn btn-warning" (click)="editEvent()">Düzenle</button>
         <button class="btn btn-danger" (click)="deleteEvent()">Sil</button>
       </div>
 
+      <!-- Katılımcı Yönetim Listesi -->
       <div *ngIf="event.ownerCid === currentUserId" class="mt-5">
         <h4 class="border-bottom pb-2 text-secondary">👥 Katılımcı Yönetim Listesi</h4>
         <div *ngIf="participants.length === 0" class="alert alert-info mt-2">

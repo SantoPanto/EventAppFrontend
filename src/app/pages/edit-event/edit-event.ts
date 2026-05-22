@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, ChangeDetectorRef } from '@angular/core'; // ChangeDetectorRef eklendi
+import { Component, OnInit, inject, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
@@ -15,13 +15,18 @@ export class EditEventComponent implements OnInit {
   private eventService = inject(EventService);
   private route = inject(ActivatedRoute);
   private router = inject(Router);
-  private cdr = inject(ChangeDetectorRef); // Entegre edildi
+  private cdr = inject(ChangeDetectorRef);
 
   editForm!: FormGroup;
   eventId!: number;
   isLoading: boolean = true;
+  currentUserId: number | null = null;
+  
+  // HTML tarafında [min]="today" kullanımı için değişken
+  today: string = new Date().toISOString().split('T')[0];
 
   ngOnInit(): void {
+    this.currentUserId = Number(localStorage.getItem('cid'));
     this.eventId = Number(this.route.snapshot.paramMap.get('id'));
     this.initForm();
     this.loadEventData();
@@ -40,15 +45,19 @@ export class EditEventComponent implements OnInit {
 
   loadEventData(): void {
     this.eventService.getById(this.eventId).subscribe({
-      next: (data) => {
+      next: (data: any) => {
+        // GÜVENLİK KONTROLÜ
+        if (data.ownerCid !== this.currentUserId) {
+          alert('Bu etkinliği düzenleme yetkiniz yok.');
+          this.router.navigate(['/events']);
+          return;
+        }
+
         console.log("Düzenleme sayfasına gelen veri:", data);
-        
-        // Eğer backend veriyi direkt değil de bir sarmalayıcı (response wrapper) ile dönüyorsa data.data veya data.content gerekebilir.
-        // Standart objeyse direkt patchValue çalışır.
         this.editForm.patchValue(data); 
         
         this.isLoading = false;
-        this.cdr.detectChanges(); // Arayüzü zorla güncelle (Sonsuz döngüyü kırar)
+        this.cdr.detectChanges(); 
       },
       error: (err) => {
         console.error('Veri yüklenirken hata oluştu', err);

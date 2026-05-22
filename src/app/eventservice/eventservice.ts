@@ -62,4 +62,10 @@ export class EventService {
   searchEvents(query: string, page: number = 0, sort: string = 'asc'): Observable<any> {
     return this.http.get(`${this.apiUrl}/search?q=${query}&page=${page}&daySort=${sort}`, { withCredentials: true });
   }
+
+  // 11. Etkinlik Durumunu Güncelle (PUBLISHED, UNPUBLISHED, ARCHIVED)
+  updateEventStatus(eid: number, status: string): Observable<any> {
+    // Backend @RequestParam beklediği için URL sonuna ?status= şeklinde ekliyoruz
+    return this.http.put(`${this.apiUrl}/updateStatus/${eid}?status=${status}`, {}, { withCredentials: true });
+  }
 }

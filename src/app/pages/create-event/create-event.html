@@ -1,4 +1,3 @@
-
 <div class="container mb-5">
   <div class="row justify-content-center">
     <div class="col-md-8">
@@ -32,6 +31,9 @@
                   <option value="Spor">Spor</option>
                   <option value="Sanat">Sanat</option>
                   <option value="Müzik">Müzik</option>
+                  <option value="Sosyal">Sosyal</option>
+                  <option value="Yarışma">Yarışma</option>
+                  <option value="Topluluk">Topluluk</option>
                   <option value="Diğer">Diğer</option>
                 </select>
                 <div class="invalid-feedback">Lütfen bir kategori seçin.</div>
@@ -39,9 +41,10 @@
 
               <div class="col-md-6 mb-3">
                 <label class="form-label fw-bold">Tarih</label>
-                <input type="date" class="form-control" formControlName="date"
+                <!-- [min]="today" eklemesi yapıldı -->
+                <input type="date" class="form-control" [min]="today" formControlName="date"
                        [ngClass]="{'is-invalid': eventForm.get('date')?.invalid && eventForm.get('date')?.touched}">
-                <div class="invalid-feedback">Tarih alanı boş bırakılamaz.</div>
+                <div class="invalid-feedback">Geçerli bir tarih seçiniz.</div>
               </div>
 
               <div class="col-md-6 mb-3">

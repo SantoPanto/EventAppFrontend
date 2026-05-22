@@ -22,7 +22,8 @@
             <div class="row">
               <div class="col-md-6 mb-3">
                 <label class="form-label fw-bold">Tarih</label>
-                <input type="date" class="form-control" formControlName="date">
+                <!-- [min]="today" eklemesi yapıldı -->
+                <input type="date" class="form-control" [min]="today" formControlName="date">
               </div>
               <div class="col-md-6 mb-3">
                 <label class="form-label fw-bold">Saat</label>

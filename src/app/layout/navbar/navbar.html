@@ -1,7 +1,9 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-5 shadow-sm">
   <div class="container">
     <!-- Logo -->
-    <a class="navbar-brand fw-bold" routerLink="/events">📅 EventApp</a>
+  <a routerLink="/events" class="navbar-brand">
+  <img src="/logo.png" alt="P'Events Logo" style="height: 40px; width: auto;">
+  </a>
     
     <div class="collapse navbar-collapse">
       <!-- Menü Linkleri -->
@@ -31,6 +33,8 @@
         <span class="me-3">Hoş geldin, <strong>{{ username }}</strong></span>
         <button (click)="logout()" class="btn btn-outline-danger btn-sm">Çıkış Yap</button>
       </div>
+
+      
     </div>
   </div>
 </nav>

@@ -47,7 +47,14 @@
     <div class="col-md-4 mb-4" *ngFor="let event of paginatedEvents">
       <div class="card h-100 shadow-sm border-0 bg-light">
         <div class="card-body">
-          <span class="badge bg-secondary mb-2">{{ event.category }}</span>
+          <!-- Güncellenmiş Kategori ve Durum Rozetleri -->
+          <div class="mb-2 d-flex gap-2">
+            <span class="badge bg-secondary">{{ event.category }}</span>
+            <span class="badge border border-success text-success" *ngIf="event.status === 'PUBLISHED'">Yayında</span>
+            <span class="badge border border-warning text-warning" *ngIf="event.status === 'UNPUBLISHED'">Çekildi</span>
+            <span class="badge border border-secondary text-secondary" *ngIf="event.status === 'ARCHIVED'">Arşiv</span>
+          </div>
+
           <h5 class="card-title text-primary fw-bold">{{ event.name }}</h5>
           <p class="card-text text-muted small">{{ event.description | slice:0:100 }}...</p>
         </div>
